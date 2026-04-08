@@ -41,27 +41,18 @@
         <div class="stat-card"><small>Voltage</small><b id="ui-volt">-- V</b></div>
         <div class="stat-card"><small>Battery</small><b id="ui-bat">-- %</b></div>
         <div class="stat-card"><small>Storage</small><b id="ui-mem">-- %</b></div>
-        <div class="card">
-    <h3>⏱️ MEASUREMENT INTERVAL</h3>
-    <select id="interval-select" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd;">
-        <option value="1">1 Minute (Test Mode)</option>
-        <option value="5">5 Minutes</option>
-        <option value="10">10 Minutes</option>
-        <option value="15" selected>15 Minutes (Standard)</option>
-        <option value="30">30 Minutes</option>
-        <option value="60">1 Hour</option>
-        <option value="120">2 Hours</option>
-    </select>
-    <button class="btn-sync" style="margin-top:10px; background:var(--primary);" onclick="updateInterval()">SET INTERVAL</button>
-</div>
-
-<script>
-function updateInterval() {
-    const val = document.getElementById('interval-select').value;
-    sendCommand("INT:" + val);
-    printLog("Setting interval to " + val + " min...");
-}
-</script>
+    </div> <div class="card">
+        <h3>⏱️ MEASUREMENT INTERVAL</h3>
+        <select id="interval-select" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; font-size: 14px; font-family: inherit;">
+            <option value="1">1 Minute (Test Mode)</option>
+            <option value="5">5 Minutes</option>
+            <option value="10">10 Minutes</option>
+            <option value="15" selected>15 Minutes (Standard)</option>
+            <option value="30">30 Minutes</option>
+            <option value="60">1 Hour</option>
+            <option value="120">2 Hours</option>
+        </select>
+        <button class="btn-sync" style="margin-top:12px; background:var(--primary);" onclick="updateInterval()">⏳ SET INTERVAL</button>
     </div>
 
     <div class="card">
@@ -257,7 +248,7 @@ function renderData(csv) {
         const blob = new Blob([content], { type: 'text/csv' });
         const file = new File([blob], `MeteoData_${Date.now()}.csv`, { type: 'text/csv' });
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            await navigator.share({ files: [file], title: 'Meteo Data' });
+            await navigator.share({ files: [file] });
         } else {
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob); a.download = `MeteoData.csv`; a.click();
@@ -274,6 +265,11 @@ function renderData(csv) {
     }
     function confirmWipe() { if(confirm("Wipe all records?")) sendCommand('CLEAR'); }
     function printLog(m) { const l = document.getElementById('console-log'); l.innerHTML += "<br>> " + m; l.scrollTop = l.scrollHeight; }
+    function updateInterval() {
+        const val = document.getElementById('interval-select').value;
+        sendCommand("INT:" + val);
+        printLog("Setting interval to " + val + " min...");
+    }
 </script>
 </body>
 </html>
