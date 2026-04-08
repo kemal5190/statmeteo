@@ -188,6 +188,9 @@ function handleIncoming(event) {
             document.getElementById('ui-volt').innerText = v.toFixed(2) + " V";
             document.getElementById('ui-bat').innerText = getBatteryLevel(v) + " %";
             document.getElementById('ui-mem').innerText = p[1] + " %";
+            if (p.length > 2) {
+                document.getElementById('interval-select').value = p[2];
+            }
         } else if (chunk.includes("EOF")) {
             printLog("Finalizing data transfer...");
             let data = buffer + chunk.replace("EOF", "").replace("CLEARED", "").replace("EMPTY", "");
