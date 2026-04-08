@@ -79,11 +79,18 @@
     let device, characteristic, buffer = "", records = [], charts = {};
 
 function getCleanTime(epoch) {
-        let d = new Date(epoch * 1000);
-        let h = d.getUTCHours().toString().padStart(2,'0');
-        let m = d.getUTCMinutes().toString().padStart(2,'0');
-        return h + ":" + m;
-    }
+    let d = new Date(epoch * 1000);
+    
+    let day = d.getUTCDate().toString().padStart(2, '0');
+    let month = (d.getUTCMonth() + 1).toString().padStart(2, '0');
+    let year = d.getUTCFullYear(); // YILI DA EKLEDİK
+    
+    let h = d.getUTCHours().toString().padStart(2, '0');
+    let m = d.getUTCMinutes().toString().padStart(2, '0');
+    
+    
+    return `${day}.${month}.${year} ${h}:${m}`;
+}
 
 const getBatteryLevel = (v) => {
         const curve = [
@@ -224,7 +231,7 @@ function renderData(csv) {
 
     async function exportData() {
         if (records.length === 0) return;
-        const head = "Time,Temp,Hum,Press,Volt,DewPoint,WetBulb,Battery\n";
+        const head = "Tarih Saat,Sicaklik(C),Nem(%),Basinc(hPa),Voltaj(V),Ciy_Noktasi(C),Yas_Termometre(C),Batarya(%)\n";
         const content = head + records.join('\n');
         const blob = new Blob([content], { type: 'text/csv' });
         const file = new File([blob], `MeteoData_${Date.now()}.csv`, { type: 'text/csv' });
