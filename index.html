@@ -41,6 +41,27 @@
         <div class="stat-card"><small>Voltage</small><b id="ui-volt">-- V</b></div>
         <div class="stat-card"><small>Battery</small><b id="ui-bat">-- %</b></div>
         <div class="stat-card"><small>Storage</small><b id="ui-mem">-- %</b></div>
+        <div class="card">
+    <h3>⏱️ MEASUREMENT INTERVAL</h3>
+    <select id="interval-select" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd;">
+        <option value="1">1 Minute (Test Mode)</option>
+        <option value="5">5 Minutes</option>
+        <option value="10">10 Minutes</option>
+        <option value="15" selected>15 Minutes (Standard)</option>
+        <option value="30">30 Minutes</option>
+        <option value="60">1 Hour</option>
+        <option value="120">2 Hours</option>
+    </select>
+    <button class="btn-sync" style="margin-top:10px; background:var(--primary);" onclick="updateInterval()">SET INTERVAL</button>
+</div>
+
+<script>
+function updateInterval() {
+    const val = document.getElementById('interval-select').value;
+    sendCommand("INT:" + val);
+    printLog("Setting interval to " + val + " min...");
+}
+</script>
     </div>
 
     <div class="card">
